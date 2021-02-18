@@ -12,7 +12,7 @@ import javax.jws.soap.SOAPBinding;
 @SOAPBinding
 public interface Customer {
     @WebMethod(operationName = "getCustomer")
-    public Customer getCustomer(@WebParam(name="id") String id) throws MissingOrDuplicateId;
+    public CustomerPOJO getCustomer(@WebParam(name="id") int id) throws MissingOrDuplicateId;
 
     @WebMethod(operationName = "addCustomer")
     public void addCustomer(@WebParam(name="id") int id, @WebParam(name="name") String name,

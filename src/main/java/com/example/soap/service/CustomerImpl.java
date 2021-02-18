@@ -52,22 +52,32 @@ public class CustomerImpl implements Customer {
      */
 
     @Override
-    public Customer getCustomer(String id) throws MissingOrDuplicateId {
-        return null;
+    public synchronized CustomerPOJO getCustomer(int id) throws MissingOrDuplicateId {
+        CustomerPOJO result = this.customerList
+                .stream()
+                .filter(customer -> customer.getId()== id)
+                .findAny()
+                .orElse(null);
+        if(result == null) {
+            throw new MissingOrDuplicateId();
+        }
+        else{
+            return result;
+        }
     }
 
     @Override
-    public void addCustomer(int id, String name, String buildingAndStreet, String city, String zip) throws MissingOrDuplicateId {
+    public synchronized void addCustomer(int id, String name, String buildingAndStreet, String city, String zip) throws MissingOrDuplicateId {
         CustomerPOJO result = this.customerList
                 .stream()
                 .filter(customer -> customer.getId()==id)
                 .findAny()
                 .orElse(null);
-        if(result.getId() == id) {
+        if(result!=null) {
             throw new MissingOrDuplicateId();
         }
         else{
-            customerList.add(new CustomerPOJO(id, name, new Address(buildingAndStreet, city, zip))
+            customerList.add(new CustomerPOJO(id, name, new Address(buildingAndStreet, city, zip)));
         }
     }
     @Override
