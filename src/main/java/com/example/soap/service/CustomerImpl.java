@@ -30,17 +30,28 @@ public class CustomerImpl implements Customer {
                 .orElse(null);
         if(result!=null) {
             if(field.equals("name")){
-
+                result.setName(value);
+                return "Customer with id "+result.getId()+ " updated the name to "+result.getName();
             }
             else if(field.equals("buildingAndStreet")){
-
+                Address temp = result.getAddress();
+                temp.setBuildingAndStreet(value);
+                result.setAddress(new Address());
             }
             else if(field.equals("city")){
-
+                Address temp = result.getAddress();
+                temp.setCity(value);
+                result.setAddress(new Address());
             }
             else if(field.equals("zip")){
-
+                Address temp = result.getAddress();
+                temp.setZip(value);
+                result.setAddress(new Address());
             }
+            else {
+                return "that field does not exist";
+            }
+            return "Customer with id "+result.getId()+ " has updated "+field+ " to "+value;
         }
         else throw new MissingId();
     }
@@ -53,7 +64,7 @@ public class CustomerImpl implements Customer {
                 .findAny()
                 .orElse(null);
         if(result!=null) {
-
+            return "Customer with id "+result.getId()+ " deleted";
         }
         else throw new MissingId();
     }
