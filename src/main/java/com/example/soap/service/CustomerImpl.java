@@ -54,14 +54,6 @@ public class CustomerImpl implements Customer {
         else throw new MissingOrDuplicateId();
     }
 
-  \
-
-    /**
-     * Prints a simple message with input from the client.
-     * @param content
-     * @return
-     */
-
     @Override
     public synchronized CustomerPOJO getCustomer(int id) throws MissingOrDuplicateId {
         CustomerPOJO result = this.customerList
