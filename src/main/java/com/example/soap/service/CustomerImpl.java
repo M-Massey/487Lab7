@@ -1,53 +1,49 @@
 package com.example.soap.service;
 
 import javax.jws.WebService;
+import java.util.ArrayList;
 
 /**
  * This class holds the implementation of the methods of our SOAP web service
  */
 @WebService(endpointInterface = "com.example.soap.service.Customer")
 public class CustomerImpl implements Customer {
-    private int id;
-    private String name;
-    private Address address;
-
-
-    public CustomerImpl() {
-        this.id = 0;
-        this.name = "";
-        this.address = new Address();
+    private static ArrayList<CustomerPOJO> customerList = new ArrayList<CustomerPOJO>();
+    /**
+     * Prints a simple message with input from the client.
+     * @param content
+     * @return
+     */
+    @Override
+    public String sayHelloWorld(String content) {
+        return "Hello " + content + "!";
     }
 
-    public CustomerImpl(int id, String name, Address address) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-    }
-    
-    public int getId() {
-        return id;
+    @Override
+    public synchronized String update(int id, String field, String value) throws MissingOrDuplicateId {
+        CustomerPOJO result = this.customerList
+                .stream()
+                .filter(customer -> customer.getId()==id)
+                .findAny()
+                .orElse(null);
+        if(result!=null) {
+            if(field.equals("name")){
+
+            }
+            else if(field.equals("buildingAndStreet")){
+
+            }
+            else if(field.equals("city")){
+
+            }
+            else if(field.equals("zip")){
+
+            }
+        }
+        else throw new MissingOrDuplicateId();
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
+  \
 
     /**
      * Prints a simple message with input from the client.
@@ -56,17 +52,34 @@ public class CustomerImpl implements Customer {
      */
 
     @Override
-    public Customer getCustomer(String ID) throws MissingId {
+    public Customer getCustomer(String id) throws MissingOrDuplicateId {
         return null;
     }
 
     @Override
-    public void addCustomer(int ID, String name, Address address) throws MissingId {
-
+    public void addCustomer(int id, String name, String buildingAndStreet, String city, String zip) throws MissingOrDuplicateId {
+        CustomerPOJO result = this.customerList
+                .stream()
+                .filter(customer -> customer.getId()==id)
+                .findAny()
+                .orElse(null);
+        if(result.getId() == id) {
+            throw new MissingOrDuplicateId();
+        }
+        else{
+            customerList.add(new CustomerPOJO(id, name, new Address(buildingAndStreet, city, zip))
+        }
     }
-
     @Override
-    public String sayHelloWorld(String content) {
-        return "Hello " + content + "!";
+    public synchronized String delete(int id) throws MissingOrDuplicateId {
+        CustomerPOJO result = this.customerList
+                .stream()
+                .filter(customer -> customer.getId()==id)
+                .findAny()
+                .orElse(null);
+        if(result!=null) {
+
+        }
+        else throw new MissingOrDuplicateId();
     }
 }
