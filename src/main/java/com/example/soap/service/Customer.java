@@ -12,10 +12,11 @@ import javax.jws.soap.SOAPBinding;
 @SOAPBinding
 public interface Customer {
     @WebMethod(operationName = "getCustomer")
-    public Customer getCustomer(@WebParam(name="ID") String ID) throws MissingId;
+    public Customer getCustomer(@WebParam(name="id") String ID) throws MissingId;
 
     @WebMethod(operationName = "addCustomer")
-    public void addCustomer(@WebParam(name="ID") int ID, @WebParam(name="name"))
+    public void addCustomer(@WebParam(name="id") int ID, @WebParam(name="name") String name,
+                            @WebParam(name="address") Address address) throws MissingId;
 
 
     @WebMethod

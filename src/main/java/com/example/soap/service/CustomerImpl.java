@@ -47,11 +47,24 @@ public class CustomerImpl implements Customer {
     public void setAddress(Address address) {
         this.address = address;
     }
+
+
     /**
      * Prints a simple message with input from the client.
      * @param content
      * @return
      */
+
+    @Override
+    public Customer getCustomer(String ID) throws MissingId {
+        return null;
+    }
+
+    @Override
+    public void addCustomer(int ID, String name, Address address) throws MissingId {
+
+    }
+
     @Override
     public String sayHelloWorld(String content) {
         return "Hello " + content + "!";
